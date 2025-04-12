@@ -93,6 +93,11 @@
         function analyzeText() {
             let text = document.getElementById("textInput").value;
 
+            if ((text.match(/\b\w+\b/g) || []).length <= 10000) {
+                alert("Error: Input must be more than 10,000 words.");
+                return;
+            }
+
             let letterCount = (text.match(/[a-zA-Z]/g) || []).length;
             let wordCount = (text.match(/\b\w+\b/g) || []).length;
             let spaceCount = (text.match(/ /g) || []).length;
