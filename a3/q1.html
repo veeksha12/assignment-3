@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sai Veeksha's Personal Website</title>
+    <link rel="stylesheet" href="q1.css">
+</head>
+<body>
+    <header>
+        <ul class="navbar">
+            <li><a href="#home" data-tab="home">Home</a></li>
+            <li><a href="#about" data-tab="about">About</a></li>
+            <li><a href="#education" data-tab="education">Education</a></li>
+            <li><a href="#skills" data-tab="skills">Skills</a></li>
+            <li><a href="#achievements" data-tab="achievements">Achievements</a></li>
+            <li><a href="q3.html" target="_blank">Text Analyzer</a></li>
+            <li><a href="#contact" data-tab="contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <section id="home" class="tab">
+            <div class="container">
+                <h4>A Personal Website for ISS Assignment</h4>
+                <h1>VEEKSHA</h1>
+            </div>
+        </section>
+
+        <section id="about" class="tab hidden">
+            <h1>About Me</h1>
+            <div class="about-content">
+                <img id="profile-img" src="profile.jpeg" alt="Profile Picture" class="profile-img">
+                <p class="typewriter-text" data-text="I am a Computer Science freshman at IIIT Hyderabad with a deep passion for technology, mathematics, and scientific exploration. I enjoy working on innovative projects, designing solutions, and learning new concepts. In my free time, I love traveling, watching movies, and spending time with loved ones. I am from Hyderabad, Telangana but have grown up in Bangalore most of my life."></p>
+            </div>
+        </section>
+
+        <section id="education" class="tab hidden">
+            <h1>Education</h1>
+          
+            <div class="education-item">
+              <h2>Present: IIIT Hyderabad</h2>
+              <p class="typewriter-text" data-text="Degree: B.Tech in Computer Science & MS in Research (Computational Natural Sciences)">
+              </p>
+              <br>
+              <p class="typewriter-text" data-text="Graduation Year: 2029">
+              </p>
+            </div>
+          
+            <div class="education-item">
+              <h2>Previous Schools</h2>
+              <p class="typewriter-text" data-text="Narayana Olympiad School (CBSE) – Focused on Science and Mathematics.">
+              </p>
+              <br>
+              <p class="typewriter-text" data-text="Primus Public School (ICSE) – Developed an early interest in technology and problem-solving.">
+              </p>
+            </div>
+          </section>
+          
+        
+        <section id="skills" class="tab hidden">
+            <h1>Technical Skills</h1>
+        
+            <div class="skill-item">
+                <h2>Expert-Level</h2>
+                <p class="typewriter-text" data-text="Python, HTML, C, CSS, SQL"></p>
+            </div>
+        
+            <div class="skill-item">
+                <h2>Intermediate-Level</h2>
+                <p class="typewriter-text" data-text="C++, Java, Bash & Shell Scripting, NoSQL"></p>
+            </div>
+        
+            <div class="skill-item">
+                <h2>Beginner-Level</h2>
+                <p class="typewriter-text" data-text="Javascript"></p>
+            </div>
+        </section>
+        
+        <section id="achievements" class="tab hidden">
+            <h1>Achievements</h1>
+        
+            <div class="achievement-item">
+                <h2>Nash Equilibrium Game</h2>
+                <p class="typewriter-text" data-text="Developed a simple game using Bash."></p>
+            </div>
+        
+            <div class="achievement-item">
+                <h2>Personal Portfolio</h2>
+                <p class="typewriter-text" data-text="Designed and built a personal portfolio website."></p>
+            </div>
+        
+            <div class="achievement-item">
+                <h2>Fractals in Python</h2>
+                <p class="typewriter-text" data-text="Generated fractals using Python."></p>
+            </div>
+        
+            <div class="achievement-item">
+                <h2>Memory Game</h2>
+                <p class="typewriter-text" data-text="Created an interactive memory game using JavaScript."></p>
+            </div>
+        </section>
+        
+        <section id="contact" class="tab hidden">
+            <h1>Contact Me</h1>
+            <div class="contact-links">
+                <a href="mailto:saiveeksha.tavva@research.iiit.ac.in" target="_blank" title="Email">
+                    <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email" class="contact-logo">
+                </a>
+                <a href="tel:+91xxxxxxxxxx" target="_blank" title="Phone">
+                    <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="Phone" class="contact-logo">
+                </a>
+                <a href="https://github.com/veeksha444" target="_blank" title="GitHub">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" class="contact-logo">
+                </a>
+                <a href="https://www.instagram.com/veekshaa06/" target="_blank" title="Instagram">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="contact-logo">
+                </a>
+                <a href="https://www.linkedin.com/in/sai-veeksha-7313a5321/" target="_blank" title="LinkedIn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" class="contact-logo">
+                </a>
+                <a href="cv.pdf" target="_blank" title="CV">
+                    <img src="https://cdn-icons-png.flaticon.com/128/6721/6721060.png" alt="Resume" class="contact-logo">
+                </a>
+            </div>
+        </section>     
+
+        <section id="cv" class="tab hidden">
+            <h1>Curriculum Vitae</h1>
+            <p>Click the link below to view or download my CV:</p>
+            <a href="resume.pdf" target="_blank" class="cv-link">Download CV (PDF)</a>
+        </section>
+        
+    </main>
+
+    <footer>
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider"></span>
+        </label>
+    </footer>
+
+    <script src="q1.js"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analyzer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='90' font-size='90'>📝</text></svg>">
+    
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ffcc00;
+        }
+
+        textarea {
+            width: 90%;
+            height: 200px;
+            padding: 12px;
+            border: 2px solid #ffcc00;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #333;
+            color: #fff;
+            resize: none;
+            display: block;
+            margin: 10px auto;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #ffcc00;
+            color: #1e1e1e;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #e6b800;
+        }
+
+        pre {
+            padding: 15px;
+            white-space: pre-wrap;
+            font-size: 14px;
+            text-align: left;
+            border-radius: 8px;
+            margin: 20px auto;
+            overflow-x: auto;
+        }
+
+        .results {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #chart-container {
+            margin: 20px auto;
+            padding-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Text Analyzer</h1>
+    <textarea id="textInput" placeholder="Paste or enter text here..."></textarea>
+    <button onclick="analyzeText()">Analyze</button>
+
+    <h2>Results:</h2>
+    <div class="results">
+        <pre id="output"></pre>
+        <div id="chart-container">
+            <canvas id="textChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        let chartInstance = null;
+
+        function analyzeText() {
+            let text = document.getElementById("textInput").value;
+
+            let letterCount = (text.match(/[a-zA-Z]/g) || []).length;
+            let wordCount = (text.match(/\b\w+\b/g) || []).length;
+            let spaceCount = (text.match(/ /g) || []).length;
+            let newlineCount = (text.match(/\n/g) || []).length;
+            let specialSymbolCount = (text.match(/[^a-zA-Z0-9\s]/g) || []).length;
+
+            let pronouns = ["he", "she", "it", "they", "we", "you", "i", "him", "her", "them", "us", "me", "my", "mine", "his", "hers", "its", "our", "ours", "their", "theirs"];
+            let pronounCount = sumCounts(countOccurrences(text, pronouns));
+
+            let prepositions = ["in", "on", "at", "by", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "under", "over", "among", "upon", "within", "without", "along", "across"];
+            let prepositionCount = sumCounts(countOccurrences(text, prepositions));
+
+            let articles = ["a", "an"];
+            let articleCount = sumCounts(countOccurrences(text, articles));
+
+            let outputText = `<span class="category">Letters:</span> ${letterCount}<br>
+<span class="category">Words:</span> ${wordCount}<br>
+<span class="category">Spaces:</span> ${spaceCount}<br>
+<span class="category">Newlines:</span> ${newlineCount}<br>
+<span class="category">Special Symbols:</span> ${specialSymbolCount}<br>`;
+
+            if (pronounCount > 0) outputText += `<br><span class="sub-category">Pronoun Count:</span> ${pronounCount}`;
+            if (prepositionCount > 0) outputText += `<br><br><span class="sub-category">Preposition Count:</span> ${prepositionCount}`;
+            if (articleCount > 0) outputText += `<br><br><span class="sub-category">Indefinite Articles Count:</span> ${articleCount}`;
+
+            document.getElementById("output").innerHTML = outputText;
+
+            updateChart(letterCount, wordCount, spaceCount, newlineCount, specialSymbolCount, pronounCount, prepositionCount, articleCount);
+        }
+
+        function countOccurrences(text, wordList) {
+            let counts = {};
+            let words = text.toLowerCase().match(/\b\w+\b/g) || [];
+            words.forEach(word => { if (wordList.includes(word)) counts[word] = (counts[word] || 0) + 1; });
+            return counts;
+        }
+
+        function sumCounts(countObject) {
+            return Object.values(countObject).reduce((sum, count) => sum + count, 0);
+        }
+
+        function updateChart(...values) {
+            const ctx = document.getElementById("textChart").getContext("2d");
+            const labels = ["Letters", "Words", "Spaces", "Newlines", "Special Symbols", "Pronouns", "Prepositions", "Articles"];
+            const colors = ["#FFD700", "#FF4500", "#1E90FF", "#32CD32", "#9400D3", "#FF1493", "#FFA500", "#00FFFF"];
+            
+            if (chartInstance) {
+                chartInstance.data.datasets[0].data = values;
+                const minValue = 0.1;
+                chartInstance.data.datasets[0].data = values.map(val => val === 0 ? minValue : val);
+                chartInstance.update('normal'); 
+                return;
+            }
+            
+            chartInstance = new Chart(ctx, {
+                type: "pie",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                        borderColor: "#36454F",
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: { color: "#ffffff", font: { size: 14 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                              label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw;
+                                    return `${label}: ${value}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            chartInstance.update('normal'); 
+        }
+    </script>
+</body>
+</html>
