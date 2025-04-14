@@ -1049,3 +1049,21 @@ body.light-mode .typewriter-text {
 body.light-mode .matrix-bg {
   background-color: rgba(245, 245, 245, 0.95); 
 }
+
+body.dark-mode .tab h1 {
+  color: var(--dark-accent);
+  position: relative;
+  display: inline-block;
+}
+
+body.dark-mode .tab h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 60%;
+  height: 2px;
+  background: var(--dark-accent);
+  transform: translateX(-50%);
+}
+
