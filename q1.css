@@ -1,3 +1,35 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    flex-wrap: nowrap;
+    white-space: nowrap; 
+    overflow-x: auto; 
+}
+
+.navbar li {
+    margin: 0 15px;
+    display: inline-block;
+    white-space: nowrap; 
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        justify-content: flex-start; 
+        padding: 10px 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; 
+    }
+    
+    .navbar li {
+        margin: 0 10px; 
+    }
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
