@@ -1,4 +1,248 @@
 @media (max-width: 768px) {
+  :root {
+    --header-height: auto;
+  }
+  
+  header {
+    height: auto;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+  }
+  
+  .navbar {
+    flex-direction: column;
+    padding: 8px 0;
+    height: auto;
+    gap: 12px;
+  }
+  
+  .navbar li {
+    margin: 0;
+  }
+  
+  .navbar a {
+    padding: 10px 15px;
+    display: block;
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+  }
+  
+  main {
+    margin-top: calc(var(--header-height) + 80px);
+    padding: 10px;
+  }
+  
+  #home {
+    height: auto;
+    min-height: 70vh;
+    padding: 40px 15px;
+  }
+  
+  #home h1 {
+    font-size: 2.2rem;
+    line-height: 1.2;
+    letter-spacing: 2px;
+    word-wrap: break-word;
+  }
+  
+  #home h4 {
+    font-size: 1.1rem;
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+  
+  .profile-container {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 20px;
+  }
+  
+  .profile-img {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .profile-img::before {
+    width: 196px;
+    height: 196px;
+    top: -8px;
+    left: -8px;
+  }
+  
+  .tab {
+    padding: 20px 15px;
+    margin: 15px auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .education-item, 
+  .skill-item, 
+  .achievement-item {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .education-item h2,
+  .skill-item h2,
+  .achievement-item h2 {
+    font-size: 1.25rem;
+    word-wrap: break-word;
+  }
+  
+  .contact-links {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .contact-logo {
+    width: 40px;
+    height: 40px;
+    padding-top: 40px;
+    padding-left: 15px;
+  }
+  
+  .cv-link {
+    padding: 10px 20px;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  footer {
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .theme-switch {
+    width: 50px;
+    height: 28px;
+  }
+  
+  .slider:before {
+    height: 20px;
+    width: 20px;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+  
+  .matrix-column {
+    width: 16px;
+  }
+  
+  .matrix-bg span {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar a {
+    font-size: 14px;
+    padding: 8px 12px;
+    width: 90%;
+  }
+  
+  #home h1 {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+  
+  #home h4 {
+    font-size: 1rem;
+  }
+  
+  .profile-container,
+  .profile-img {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .profile-img::before {
+    width: 166px;
+    height: 166px;
+  }
+  
+  .tab {
+    padding: 15px 12px;
+  }
+  
+  .education-item h2,
+  .skill-item h2,
+  .achievement-item h2 {
+    font-size: 1.1rem;
+  }
+  
+  .contact-logo {
+    width: 36px;
+    height: 36px;
+    padding-top: 36px;
+    padding-left: 12px;
+  }
+  
+  .tab p, 
+  .education-item p, 
+  .skill-item p, 
+  .achievement-item p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+.tab p, 
+.tab h1, 
+.tab h2, 
+.tab h3, 
+.tab h4, 
+.tab h5, 
+.tab h6,
+.tab div,
+.education-item p,
+.skill-item p,
+.achievement-item p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html, body {
+  min-height: -webkit-fill-available;
+  width: 100%;
+}
+
+.navbar a,
+.cv-link,
+.contact-logo,
+.theme-switch {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@supports (-webkit-touch-callout: none) {
+  #home {
+    height: -webkit-fill-available;
+  }
+}
+
+@media (max-width: 768px) {
   .navbar {
     flex-direction: column;
     padding: 10px 0;
