@@ -45,6 +45,7 @@ function toggleTheme(isDarkMode) {
 
 const profileImages = [
   "profile.jpeg", 
+  "profile0.jpeg",
   "profile1.jpeg",
   "profile2.jpeg",
   "profile3.jpeg",
