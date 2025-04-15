@@ -70,14 +70,57 @@
             margin: 20px auto;
             padding-bottom: 15px;
         }
+        
+        .category {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        
+        .sub-category {
+            color: #1e90ff;
+            font-weight: bold;
+        }
+        
+        .word-counts {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        
+        .count-section {
+            background: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px;
+            width: 30%;
+        }
+        
+        .count-section h3 {
+            color: #ffcc00;
+            border-bottom: 1px solid #ffcc00;
+            padding-bottom: 5px;
+        }
+        
+        .count-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        
+        .error-message {
+            color: #ff4500;
+            font-weight: bold;
+            margin: 20px 0;
+        }
     </style>
 </head>
 
 <body>
 
     <h1>Text Analyzer</h1>
-    <textarea id="textInput" placeholder="Paste or enter text here..."></textarea>
+    <textarea id="textInput" placeholder="Paste or enter text here (minimum 10,000 words)..."></textarea>
     <button onclick="analyzeText()">Analyze</button>
+    <div id="errorMessage" class="error-message"></div>
 
     <h2>Results:</h2>
     <div class="results">
@@ -86,53 +129,79 @@
             <canvas id="textChart"></canvas>
         </div>
     </div>
+    
+    <div class="word-counts" id="wordCounts">
+        <!-- Will be populated by JavaScript -->
+    </div>
 
     <script>
         let chartInstance = null;
+        let pronounCounts = {};
+        let prepositionCounts = {};
+        let articleCounts = {};
 
         function analyzeText() {
+            const errorElement = document.getElementById("errorMessage");
+            errorElement.textContent = "";
+            
             let text = document.getElementById("textInput").value;
+            const wordCount = (text.match(/\b\w+\b/g) || []).length;
 
-            if ((text.match(/\b\w+\b/g) || []).length <= 10000) {
-                alert("Error: Input must be more than 10,000 words.");
+            if (wordCount < 10000) {
+                errorElement.textContent = `Error: Input must be at least 10,000 words (current: ${wordCount} words).`;
                 return;
             }
 
             let letterCount = (text.match(/[a-zA-Z]/g) || []).length;
-            let wordCount = (text.match(/\b\w+\b/g) || []).length;
             let spaceCount = (text.match(/ /g) || []).length;
             let newlineCount = (text.match(/\n/g) || []).length;
             let specialSymbolCount = (text.match(/[^a-zA-Z0-9\s]/g) || []).length;
 
-            let pronouns = ["he", "she", "it", "they", "we", "you", "i", "him", "her", "them", "us", "me", "my", "mine", "his", "hers", "its", "our", "ours", "their", "theirs"];
-            let pronounCount = sumCounts(countOccurrences(text, pronouns));
+            const pronouns = ["i", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them", "my", "your", "his", "its", "our", "their"];
+            const prepositions = ["in", "on", "at", "by", "for", "of", "to", "with", "about", "from", "up", "down", "over", "under", "after", "before", "between", "among"];
+            const articles = ["a", "an"];
 
-            let prepositions = ["in", "on", "at", "by", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "under", "over", "among", "upon", "within", "without", "along", "across"];
-            let prepositionCount = sumCounts(countOccurrences(text, prepositions));
+            pronounCounts = {};
+            prepositionCounts = {};
+            articleCounts = {};
+            
+            pronouns.forEach(pronoun => pronounCounts[pronoun] = 0);
+            prepositions.forEach(preposition => prepositionCounts[preposition] = 0);
+            articles.forEach(article => articleCounts[article] = 0);
 
-            let articles = ["a", "an"];
-            let articleCount = sumCounts(countOccurrences(text, articles));
+            const words = text.toLowerCase().match(/\b\w+\b/g) || [];
+            words.forEach(word => {
+                if (pronouns.includes(word)) {
+                    pronounCounts[word]++;
+                }
+                if (prepositions.includes(word)) {
+                    prepositionCounts[word]++;
+                }
+                if (articles.includes(word)) {
+                    articleCounts[word]++;
+                }
+            });
 
-            let outputText = `<span class="category">Letters:</span> ${letterCount}<br>
-<span class="category">Words:</span> ${wordCount}<br>
-<span class="category">Spaces:</span> ${spaceCount}<br>
-<span class="category">Newlines:</span> ${newlineCount}<br>
-<span class="category">Special Symbols:</span> ${specialSymbolCount}<br>`;
+            // Calculate totals
+            let pronounTotal = sumCounts(pronounCounts);
+            let prepositionTotal = sumCounts(prepositionCounts);
+            let articleTotal = sumCounts(articleCounts);
 
-            if (pronounCount > 0) outputText += `<br><span class="sub-category">Pronoun Count:</span> ${pronounCount}`;
-            if (prepositionCount > 0) outputText += `<br><br><span class="sub-category">Preposition Count:</span> ${prepositionCount}`;
-            if (articleCount > 0) outputText += `<br><br><span class="sub-category">Indefinite Articles Count:</span> ${articleCount}`;
+            let outputText = `<span class="category">Letters:</span> ${letterCount.toLocaleString()}<br>
+<span class="category">Words:</span> ${wordCount.toLocaleString()}<br>
+<span class="category">Spaces:</span> ${spaceCount.toLocaleString()}<br>
+<span class="category">Newlines:</span> ${newlineCount.toLocaleString()}<br>
+<span class="category">Special Symbols:</span> ${specialSymbolCount.toLocaleString()}<br>`;
+
+            if (pronounTotal > 0) outputText += `<br><span class="sub-category">Pronoun Count:</span> ${pronounTotal.toLocaleString()}`;
+            if (prepositionTotal > 0) outputText += `<br><br><span class="sub-category">Preposition Count:</span> ${prepositionTotal.toLocaleString()}`;
+            if (articleTotal > 0) outputText += `<br><br><span class="sub-category">Indefinite Articles Count:</span> ${articleTotal.toLocaleString()}`;
 
             document.getElementById("output").innerHTML = outputText;
 
-            updateChart(letterCount, wordCount, spaceCount, newlineCount, specialSymbolCount, pronounCount, prepositionCount, articleCount);
-        }
-
-        function countOccurrences(text, wordList) {
-            let counts = {};
-            let words = text.toLowerCase().match(/\b\w+\b/g) || [];
-            words.forEach(word => { if (wordList.includes(word)) counts[word] = (counts[word] || 0) + 1; });
-            return counts;
+            updateChart(letterCount, wordCount, spaceCount, newlineCount, specialSymbolCount, pronounTotal, prepositionTotal, articleTotal);
+            
+            displayWordCounts();
         }
 
         function sumCounts(countObject) {
@@ -175,7 +244,7 @@
                               label: function(context) {
                                     const label = context.label || '';
                                     const value = context.raw;
-                                    return `${label}: ${value}`;
+                                    return `${label}: ${value.toLocaleString()}`;
                                 }
                             }
                         }
@@ -183,6 +252,50 @@
                 }
             });
             chartInstance.update('normal'); 
+        }
+        
+        function displayWordCounts() {
+            const wordCountsContainer = document.getElementById("wordCounts");
+            wordCountsContainer.innerHTML = '';
+            
+            const pronounSection = document.createElement("div");
+            pronounSection.className = "count-section";
+            pronounSection.innerHTML = '<h3>Pronouns</h3>';
+            for (const [word, count] of Object.entries(pronounCounts)) {
+                if (count > 0) {
+                    const item = document.createElement("div");
+                    item.className = "count-item";
+                    item.innerHTML = `<span>${word}</span><span>${count.toLocaleString()}</span>`;
+                    pronounSection.appendChild(item);
+                }
+            }
+            wordCountsContainer.appendChild(pronounSection);
+            
+            const prepositionSection = document.createElement("div");
+            prepositionSection.className = "count-section";
+            prepositionSection.innerHTML = '<h3>Prepositions</h3>';
+            for (const [word, count] of Object.entries(prepositionCounts)) {
+                if (count > 0) {
+                    const item = document.createElement("div");
+                    item.className = "count-item";
+                    item.innerHTML = `<span>${word}</span><span>${count.toLocaleString()}</span>`;
+                    prepositionSection.appendChild(item);
+                }
+            }
+            wordCountsContainer.appendChild(prepositionSection);
+            
+            const articleSection = document.createElement("div");
+            articleSection.className = "count-section";
+            articleSection.innerHTML = '<h3>Articles</h3>';
+            for (const [word, count] of Object.entries(articleCounts)) {
+                if (count > 0) {
+                    const item = document.createElement("div");
+                    item.className = "count-item";
+                    item.innerHTML = `<span>${word}</span><span>${count.toLocaleString()}</span>`;
+                    articleSection.appendChild(item);
+                }
+            }
+            wordCountsContainer.appendChild(articleSection);
         }
     </script>
 </body>
