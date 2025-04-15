@@ -23,7 +23,7 @@
    - A **pie chart** is included for a more visual and effective analysis.
    - For the purpose of text classification and analysis, the following word categories have been predefined and hardcoded into the application:
 
-    Pronouns:
+Pronouns:
 
 const pronouns = [
   'i', 'me', 'my', 'mine', 'myself', 'you', 'your', 'yours', 'yourself',
@@ -38,6 +38,7 @@ const pronouns = [
   'one', 'somebody', 'someone', 'something', 'both', 'few', 'many',
   'several', 'all', 'any', 'most', 'some'
 ];
+---
 
 Prepositions:
 
@@ -50,9 +51,11 @@ const prepositions = [
   'throughout', 'to', 'toward', 'towards', 'under', 'underneath', 'until',
   'unto', 'up', 'upon', 'with', 'within', 'without'
 ];
+---
 
 Articles:
     const articles = ['a', 'an', 'the'];
+---
 
 These arrays are used to classify and count specific types of words during the text analysis process.
 
