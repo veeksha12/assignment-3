@@ -157,9 +157,27 @@
             let newlineCount = (text.match(/\n/g) || []).length;
             let specialSymbolCount = (text.match(/[^a-zA-Z0-9\s]/g) || []).length;
 
-            const pronouns = ["i", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them", "my", "your", "his", "its", "our", "their"];
-            const prepositions = ["in", "on", "at", "by", "for", "of", "to", "with", "about", "from", "up", "down", "over", "under", "after", "before", "between", "among"];
-            const articles = ["a", "an"];
+            const pronouns = ['i', 'me', 'my', 'mine', 'myself', 'you', 'your', 'yours', 'yourself', 
+                  'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 
+                  'it', 'its', 'itself', 'we', 'us', 'our', 'ours', 'ourselves', 
+                  'they', 'them', 'their', 'theirs', 'themselves',
+                  'who', 'whom', 'whose', 'which', 'what',
+                  'that', 'which', 'who', 'whom', 'whose',
+                  'this', 'that', 'these', 'those',
+                  'anybody', 'anyone', 'anything', 'each', 'either', 'everybody', 
+                  'everyone', 'everything', 'neither', 'nobody', 'none', 'nothing', 
+                  'one', 'somebody', 'someone', 'something', 'both', 'few', 'many', 
+                  'several', 'all', 'any', 'most', 'some'];
+                  
+            const prepositions = ['about', 'above', 'across', 'after', 'against', 'along', 'amid', 'among', 
+                  'around', 'as', 'at', 'before', 'behind', 'below', 'beneath', 'beside', 
+                  'between', 'beyond', 'by', 'despite', 'down', 'during', 'except', 'for', 
+                  'from', 'in', 'inside', 'into', 'like', 'near', 'of', 'off', 'on', 'onto', 
+                  'out', 'outside', 'over', 'past', 'regarding', 'round', 'since', 'through', 
+                  'throughout', 'to', 'toward', 'towards', 'under', 'underneath', 'until', 
+                  'unto', 'up', 'upon', 'with', 'within', 'without'];
+                  
+            const articles = ["a", "an", "the"];
 
             pronounCounts = {};
             prepositionCounts = {};
