@@ -451,3 +451,148 @@ function showTab(tabName) {
       logEvent('view', `tab-${tabName}`);
   }
 }
+
+function initMatrixCanvas() {
+  let canvas = document.getElementById('matrix-canvas');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.id = 'matrix-canvas';
+    canvas.className = 'matrix-canvas';
+    document.body.appendChild(canvas);
+  }
+  
+  const ctx = canvas.getContext('2d');
+  
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  
+  const chars = '01';
+  const fontSize = 14;
+  let columns = Math.floor(canvas.width / fontSize);
+  
+  function calculateColumns() {
+    columns = Math.floor(canvas.width / fontSize);
+    return columns;
+  }
+  
+  let drops = [];
+  function initDrops() {
+    drops = [];
+    const cols = calculateColumns();
+    for (let i = 0; i < cols; i++) {
+      drops[i] = Math.floor(Math.random() * -canvas.height);
+    }
+  }
+  initDrops();
+  
+  let animationId;
+  let lastTime = 0;
+  const frameRate = 30; 
+  const frameInterval = 1000 / frameRate;
+  
+  function draw(timestamp) {
+    if (!lastTime) lastTime = timestamp;
+    const deltaTime = timestamp - lastTime;
+    
+    if (deltaTime > frameInterval) {
+      lastTime = timestamp - (deltaTime % frameInterval);
+      
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      
+      ctx.fillStyle = isDarkMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = isDarkMode ? 'rgba(0, 255, 204, 0.5)' : 'rgba(255, 64, 129, 0.5)';
+      ctx.font = `${fontSize}px monospace`;
+      
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        
+        ctx.fillText(text, i * fontSize, drops[i]);
+        
+        if (drops[i] > canvas.height || Math.random() > 0.98) {
+          drops[i] = Math.floor(Math.random() * -canvas.height);
+        }
+        
+        drops[i] += fontSize;
+      }
+    }
+    
+    animationId = requestAnimationFrame(draw);
+  }
+  
+  animationId = requestAnimationFrame(draw);
+  
+  function handleResize() {
+    resizeCanvas();
+    initDrops();
+  }
+  
+  window.addEventListener('resize', handleResize);
+  
+  return function stopMatrixCanvas() {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+    window.removeEventListener('resize', handleResize);
+    if (canvas && canvas.parentNode) {
+      canvas.parentNode.removeChild(canvas);
+    }
+  };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const style = document.createElement('style');
+  style.textContent = `
+    .matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+  `;
+  document.head.appendChild(style);
+  
+  window.stopMatrixCanvas = initMatrixCanvas();
+  
+  const originalToggleTheme = window.toggleTheme;
+  if (typeof originalToggleTheme === 'function') {
+    window.toggleTheme = function(isDarkMode) {
+      originalToggleTheme(isDarkMode);
+      
+      if (window.stopMatrixCanvas) {
+        window.stopMatrixCanvas();
+        window.stopMatrixCanvas = initMatrixCanvas();
+      }
+    };
+  }
+});
+
+function showTab(tabName) {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+    tab.classList.add('hidden');
+  });
+
+  const activeTab = document.getElementById(tabName);
+  if (activeTab) {
+    activeTab.classList.remove('hidden');
+    activeTab.classList.add('active');
+  }
+
+  document.querySelectorAll('.navbar a').forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === `#${tabName}`) {
+      link.classList.add('active');
+    }
+  });
+
+  logEvent('view', `tab-${tabName}`);
+}
