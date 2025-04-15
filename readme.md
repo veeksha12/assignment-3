@@ -12,6 +12,7 @@
 
 1. Click the link above to browse the website.
 2. To observe the **typewriting effect**, refresh the page and immediately click on the tab where you'd like to see the effect.
+3. To view the **pictures**, click on them to navigate to the next image.
 
 ---
 
